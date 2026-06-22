@@ -1,0 +1,43 @@
+#!/bin/sh
+# ============================================
+# OpenWrt 旁路由 + IPv6 自动配置
+# 主路由: 192.168.2.254
+# N1 旁路由: 192.168.2.111
+# ============================================
+
+LAN_IP="192.168.2.111"
+LAN_NETMASK="255.255.255.0"
+GATEWAY="192.168.2.254"
+DNS="192.168.2.254"
+
+# 1. 配置 LAN 接口（旁路由模式）
+uci set network.lan.proto='static'
+uci set network.lan.ipaddr="$LAN_IP"
+uci set network.lan.netmask="$LAN_NETMASK"
+uci set network.lan.gateway="$GATEWAY"
+uci set network.lan.dns="$DNS"
+uci set network.lan.ip6assign="64"
+uci set network.lan.ignore='1'
+
+# 2. 配置 IPv6（DHCPv6 客户端）
+uci set network.ipv6=dhcp
+uci set network.ipv6.proto='dhcpv6'
+uci set network.ipv6.ifname='@lan'
+uci set network.ipv6.device='lan'
+uci set network.ipv6.leasefile='/tmp/ra-leases'
+uci set network.ipv6.accept_ra='1'
+uci set network.ipv6.ra_dns='1'
+uci set network.ipv6.ra_default='1'
+
+# 3. 防火墙自定义规则（MASQUERADE）
+uci set firewall.pasrule=rule
+uci set firewall.pasrule.name='Masquerade IPv4'
+uci set firewall.pasrule.family='ipv4'
+uci set firewall.pasrule.target='POSTROUTING'
+uci set firewall.pasrule.chain='postrouting'
+uci set firewall.pasrule.out_interface='eth0'
+uci set firewall.pasrule.target='MASQUERADE'
+
+uci commit firewall
+
+echo "旁路由 + IPv6 配置完成"
