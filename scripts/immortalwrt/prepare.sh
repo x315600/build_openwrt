@@ -64,6 +64,10 @@ p ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 p "进入编译目录 ${wrtdir}"
 cd ${wrtdir}
 
+p "添加 argon 主题 feed"
+git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
+git clone --depth 1 https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
+
 p "更新 Feeds"
 ./scripts/feeds update -f -a
 ./scripts/feeds install -f -a
