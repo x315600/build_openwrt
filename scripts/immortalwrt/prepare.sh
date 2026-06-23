@@ -209,11 +209,6 @@ sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/root/us
 sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/htdocs/luci-static/resources/view/nlbw/config.js
 p "Bandix 流量监控"
 cp -rf ${otherdir}/openwrt-add/{openwrt-bandix,luci-app-bandix} ./package/add/
-p "Samba4 网络共享"
-sed -i 's/nas/services/g' ./feeds/luci/applications/luci-app-samba4/root/usr/share/luci/menu.d/luci-app-samba4.json
-p "硬盘休眠"
-sed -i 's/nas/services/g' ./feeds/luci/applications/luci-app-hd-idle/root/usr/share/luci/menu.d/luci-app-hd-idle.json
-p "Filebrowser 文件管理器"
 rm -rf ./feeds/luci/applications/luci-app-filebrowser-go ./feeds/packages/utils/filebrowser
 cp -rf ${otherdir}/openwrt-add/openwrt_pkgs/{filebrowser,luci-app-filebrowser-go} ./package/add/
 
