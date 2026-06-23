@@ -31,14 +31,6 @@ set amlogic.armcpu.maxfreq0='1512000'
 EOI
 uci commit amlogic
 
-# 启用 KMS 服务器
-uci batch << EOI
-set vlmcsd.config.enabled='1'
-set vlmcsd.config.auto_activate='1'
-set vlmcsd.config.internet_access='1'
-EOI
-uci commit vlmcsd
-
 # MosDNS
 uci set mosdns.config.log_level='error'
 uci commit mosdns
