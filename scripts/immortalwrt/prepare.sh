@@ -196,13 +196,9 @@ rm -rf ./feeds/packages/net/{v2ray-geodata,mosdns}
 cp -rf ${otherdir}/openwrt-add/luci-app-mosdns ./package/add/luci-app-mosdns
 cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
 
-p "Podman"
-cp -rf ${otherdir}/podman ./package/luci-app-podman
-sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/resources/podman/model/{Pod.js,Image.js,Model.js,Container.js}
-sed -i 's#admin/#&services/#g' ./package/luci-app-podman/htdocs/luci-static/resources/view/podman/{overview.js,container.js,pod.js,pod-tab/info.js}
-sed -i 's#admin/#&services/#g' ./package/luci-app-podman/root/usr/share/luci/menu.d/luci-app-podman.json
+p "Docker + Dockerman"
+cp -rf ${otherdir}/podman ./package/luci-app-dockerman
 rm -rf ./feeds/packages/utils/podman
-cp -rf ${otherdir}/imm_pkg_ma/utils/podman ./feeds/packages/utils/podman
 
 p "Nlbw 带宽监控"
 sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
