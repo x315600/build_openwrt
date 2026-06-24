@@ -15,19 +15,23 @@ start_service() {
  procd_set_param stderr 1
  procd_close_instance
 
- # 自动扫描并放行容器端口
- /etc/init.d/podman-daemon collect_ports
+ # 开机时自动放行容器端口
+ collect_ports
 }
 
 stop_service() {
  killall podman 2>/dev/null
 }
 
+# 自动扫描并放行运行中容器的端口
 collect_ports() {
- # 扫描所有运行中容器的端口映射
  local ports=""
- for port_line in $(podman ps --format '{{.Names}} {{.Ports}}' 2>/dev/null | grep -oP '\d+/tcp' | grep -oP '^\d+'); do
-   ports="$ports $port_line"
+ local port_line
+ for port_line in $(podman ps --format '{{.Ports}}' 2>/dev/null); do
+   # 匹配 0.0.0.0:PORT->... 或 [::]:PORT->...
+   for p in $(echo "$port_line" | grep -oP '(?:\[::\]|0\.0\.0\.0:)\K\d+'); do
+     ports="$ports $p"
+   done
  done
 
  # 去重
@@ -38,7 +42,6 @@ collect_ports() {
    if ! iptables -C INPUT -p tcp --dport "$port" -j ACCEPT 2>/dev/null; then
      iptables -I INPUT -p tcp --dport "$port" -j ACCEPT
      ip6tables -I INPUT -p tcp --dport "$port" -j ACCEPT 2>/dev/null
-     logger -t podman-daemon "Opened port $port for container"
    fi
  done
 }
