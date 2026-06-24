@@ -44,8 +44,8 @@ uci set network.globals.packet_steering='2'
 uci set network.globals.steering_flows='256'
 uci commit network
 
-# 通用即插即用
-uci set upnpd.config.enabled='1'
+# 通用即插即用（默认禁用）
+uci set upnpd.config.enabled='0'
 uci commit upnpd
 
 # bandix
