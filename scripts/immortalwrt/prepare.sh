@@ -198,7 +198,7 @@ cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
 
 p "Docker + Dockerman"
 cp -rf ${otherdir}/podman ./package/luci-app-dockerman
-rm -rf ./feeds/packages/utils/podman
+rm -rf ./feeds/packages/utils/podman ./feeds/packages/utils/docker
 
 p "Nlbw 带宽监控"
 sed -i 's/services/network/g' ./feeds/luci/applications/luci-app-nlbwmon/root/usr/share/luci/menu.d/luci-app-nlbwmon.json
