@@ -47,15 +47,18 @@ jobs:
         echo "BUILD_DATE=$build_date" >> $GITHUB_ENV
 
     - name: 发布固件
-      uses: ncipollo/release-action@v1
+      run: |
+        cd ${{ github.workspace }}
+        BODY=$(cat ./doc/release.md)
+        gh release create ${{ env.BUILD_DATE }} \
+          --title "${{ env.BUILD_DATE }} 固件发布" \
+          --notes "$BODY" \
+          --generate-notes \
+          artifact/*.zip \
+          --repo x315600/build_openwrt \
+          --clobber
       env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      with:
-        tag: ${{ env.BUILD_DATE }}
-        allowUpdates: true
-        replacesArtifacts: true
-        artifacts: ${{ github.workspace }}/artifact/*.zip
-        bodyFile: ./doc/release.md
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: TG 通知
       run: |
