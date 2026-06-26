@@ -48,8 +48,6 @@ jobs:
 
     - name: 发布固件
       uses: ncipollo/release-action@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       with:
         tag: ${{ env.BUILD_DATE }}
         allowUpdates: true
