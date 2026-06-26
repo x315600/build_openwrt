@@ -26,28 +26,28 @@ jobs:
         immortalwrt_run_id="$(
           curl \
           -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ffuqiangg/build_openwrt/actions/runs |
+          -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/x315600/build_openwrt/actions/runs |
           jq -r '.workflow_runs[] | select(.name == "ImmortalWrt") | .id' |
            head -n 1
         )"
         openwrt_run_id="$(
           curl \
           -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ffuqiangg/build_openwrt/actions/runs |
+          -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/x315600/build_openwrt/actions/runs |
           jq -r '.workflow_runs[] | select(.name == "OpenWrt") | .id' |
            head -n 1
         )"
         lede_run_id="$(
           curl \
           -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ffuqiangg/build_openwrt/actions/runs |
+          -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/x315600/build_openwrt/actions/runs |
           jq -r '.workflow_runs[] | select(.name == "LEDE") | .id' |
            head -n 1
         )"
         istoreos_run_id="$(
           curl \
           -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/ffuqiangg/build_openwrt/actions/runs |
+          -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/x315600/build_openwrt/actions/runs |
           jq -r '.workflow_runs[] | select(.name == "iStoreOS") | .id' |
            head -n 1
         )"
@@ -112,7 +112,7 @@ jobs:
 
         $(awk '/更新内容/{f=1; c=2; next} f && --c<=0' ./doc/release.md | sed 'G')
 
-        [固件下载地址](https://github.com/ffuqiangg/build_openwrt/releases/tag/${{ env.BUILD_DATE }}) | [刷机说明](https://github.com/ffuqiangg/build_openwrt/doc/readme.md)
+        [固件下载地址](https://github.com/x315600/build_openwrt/releases/tag/${{ env.BUILD_DATE }}) | [刷机说明](https://github.com/x315600/build_openwrt/doc/readme.md)
         "
 
         curl "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
