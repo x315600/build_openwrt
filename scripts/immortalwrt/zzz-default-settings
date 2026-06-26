@@ -83,6 +83,17 @@ opkg flag hold dnsmasq-full
 /etc/init.d/podman disable 2>/dev/null
 /etc/init.d/podman stop
 
+# 修改 ImmortalWrt 全局网络防火墙 config zone
+uci set firewall.@zone[0].name='lan'
+uci set firewall.@zone[0].network='lan'
+uci set firewall.@zone[0].input='ACCEPT'
+uci set firewall.@zone[0].output='ACCEPT'
+uci set firewall.@zone[0].forward='ACCEPT'
+uci del_list firewall.@zone[0].device='br-lan' 2>/dev/null
+uci add_list firewall.@zone[0].device='br-lan'
+uci add_list firewall.@zone[0].device='docker0'
+uci commit firewall
+
 # openwr_release 写入编译日期
 sed -i '/BUILD_DATE/d' /etc/openwrt_release
 echo "BUILD_DATE='build_date'" >> /etc/openwrt_release
