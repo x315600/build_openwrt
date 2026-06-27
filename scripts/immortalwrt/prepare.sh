@@ -199,6 +199,9 @@ cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
 p "OpenClash"
 cp -rf ${otherdir}/openwrt-add/luci-app-openclash ./package/add/
 
+p "iStore"
+cp -rf ${otherdir}/openwrt-add/luci-app-istore ./package/add/
+
 p "Docker + Dockerman"
 cp -rf ${otherdir}/podman ./package/luci-app-dockerman
 rm -rf ./feeds/packages/utils/podman
