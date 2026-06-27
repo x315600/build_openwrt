@@ -68,6 +68,7 @@ p "添加 argon 主题 feed"
 git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/luci-theme-argon
 git clone --depth 1 https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
 git clone --depth 1 https://github.com/gdy666/luci-app-lucky.git package/lucky
+git clone --depth 1 https://github.com/gdy666/luci-app-lucky.git package/luci-app-lucky
 
 p "更新 Feeds"
 ./scripts/feeds update -f -a
