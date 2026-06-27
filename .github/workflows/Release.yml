@@ -50,13 +50,13 @@ jobs:
       run: |
         cd ${{ github.workspace }}
         BODY=$(cat ./doc/release.md)
+        # 先删除已存在的 release
+        gh release delete ${{ env.BUILD_DATE }} --repo x315600/build_openwrt --yes 2>/dev/null || true
         gh release create ${{ env.BUILD_DATE }} \
           --title "${{ env.BUILD_DATE }} 固件发布" \
           --notes "$BODY" \
-          --generate-notes \
           artifact/*.zip \
-          --repo x315600/build_openwrt \
-          --clobber
+          --repo x315600/build_openwrt
       env:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
