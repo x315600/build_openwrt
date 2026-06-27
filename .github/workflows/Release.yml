@@ -1,12 +1,16 @@
 name: Release
 
 on:
-  workflow_dispatch:
+  workflow_run:
+    workflows: ["ImmortalWrt"]
+    types: [completed]
 
 jobs:
   build:
     runs-on: ubuntu-24.04
-    if: github.event.repository.owner.id == github.event.sender.id
+    if: >
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.repository.owner.id == github.event.sender.id
 
     steps:
     - name: 检出代码
@@ -22,15 +26,8 @@ jobs:
         sudo -E apt-get -y update
         sudo -E apt-get -y install jq
 
-        # 获取 ImmortalWrt 最新 run id
-        immortalwrt_run_id="$(
-          curl \
-          -H "Authorization: Bearer ${{ secrets.GH_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" https://api.github.com/repos/x315600/build_openwrt/actions/runs |
-          jq -r '.workflow_runs[] | select(.name == "ImmortalWrt") | .id' |
-           head -n 1
-        )"
-        echo "IMMORTALWRT_RUN_ID=$immortalwrt_run_id" >> $GITHUB_ENV
+        # 获取触发本次 workflow 的 ImmortalWrt run id
+        echo "IMMORTALWRT_RUN_ID=${{ github.event.workflow_run.id }}" >> $GITHUB_ENV
 
     - name: 下载固件 ( ImmortalWrt )
       uses: actions/download-artifact@v4
@@ -58,7 +55,7 @@ jobs:
           artifact/*.zip \
           --repo x315600/build_openwrt
       env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        GH_TOKEN: *** secrets.GH_TOKEN }}
 
     - name: TG 通知
       run: |
