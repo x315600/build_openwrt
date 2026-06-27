@@ -196,6 +196,9 @@ rm -rf ./feeds/packages/net/{v2ray-geodata,mosdns}
 cp -rf ${otherdir}/openwrt-add/luci-app-mosdns ./package/add/luci-app-mosdns
 cp -rf ${otherdir}/v2ray_geodata ./package/add/v2ray-geodata
 
+p "OpenClash"
+cp -rf ${otherdir}/openwrt-add/luci-app-openclash ./package/add/
+
 p "Docker + Dockerman"
 cp -rf ${otherdir}/podman ./package/luci-app-dockerman
 rm -rf ./feeds/packages/utils/podman
