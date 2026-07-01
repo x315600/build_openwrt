@@ -77,10 +77,8 @@ cp -rf package/lucky/luci-i18n-lucky-zh-cn package/luci-i18n-lucky-zh-cn
 rm -rf package/lucky
 
 p "添加 iStore 插件商店（含依赖）"
-# iStore 需要通过 feeds 注册，参考官方文档
-echo 'src-git istore https://github.com/linkease/istore;main' >> feeds.conf.default
-./scripts/feeds update istore
-./scripts/feeds install -d y -p istore
+# 直接 clone 到 package 目录，和 Lucky 一样
+git clone --depth 1 https://github.com/linkease/istore.git package/istore
 
 p "更新 Feeds"
 ./scripts/feeds update -f -a
