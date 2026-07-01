@@ -69,16 +69,20 @@ git clone --depth 1 https://github.com/jerrykuku/luci-theme-argon.git package/lu
 git clone --depth 1 https://github.com/jerrykuku/luci-app-argon-config.git package/luci-app-argon-config
 
 p "添加 Lucky 插件（修复版）"
-# lucky 仓库结构: lucky/ (内核) + luci-app-lucky/ (LuCI界面) + luci-i18n-lucky-zh-cn/ (中文翻译)
-git clone --depth 1 https://github.com/gdy666/luci-app-lucky.git package/lucky
-# 将 lucky 子目录移到 package/ 顶层
-cp -rf package/lucky/lucky package/luci-app-lucky
-cp -rf package/lucky/luci-i18n-lucky-zh-cn package/luci-i18n-lucky-zh-cn
-rm -rf package/lucky
+# lucky 仓库结构: lucky/ (内核) + luci-app-lucky/ (LuCI界面) + luci-app-lucky/po/zh_Hans/ (中文翻译)
+git clone --depth 1 https://github.com/gdy666/luci-app-lucky.git package/lucky-src
+# 把 lucky 二进制包和 luci-app-lucky 界面包分别放到 package/ 顶层
+cp -rf package/lucky-src/lucky package/lucky-bin
+cp -rf package/lucky-src/luci-app-lucky package/luci-app-lucky
+rm -rf package/lucky-src
 
 p "添加 iStore 插件商店（含依赖）"
-# 直接 clone 到 package 目录，和 Lucky 一样
-git clone --depth 1 https://github.com/linkease/istore.git package/istore
+# istore 仓库结构: luci/luci-app-store/ (界面包) + luci/luci-lib-taskd/ (依赖)
+git clone --depth 1 https://github.com/linkease/istore.git package/istore-src
+# 把 iStore 相关包放到 package/ 顶层
+cp -rf package/istore-src/luci/luci-app-store package/luci-app-store
+cp -rf package/istore-src/luci/luci-lib-taskd package/luci-lib-taskd
+rm -rf package/istore-src
 
 p "更新 Feeds"
 ./scripts/feeds update -f -a
