@@ -55,14 +55,14 @@ jobs:
           artifact/*.zip \
           --repo x315600/build_openwrt
       env:
-        GH_TOKEN: *** secrets.GH_TOKEN }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
     - name: TG 通知
       run: |
         message="
         *${{ env.BUILD_DATE }} 固件发布*
 
-        $(awk '/更新内容/{f=1; c=2; next} f && --c<=0' ./doc/release.md | sed 'G')
+        $(awk '/更新内容/{f=1; c=2; next} f && c<=0' ./doc/release.md | sed 'G')
 
         [固件下载地址](https://github.com/x315600/build_openwrt/releases/tag/${{ env.BUILD_DATE }}) | [刷机说明](https://github.com/x315600/build_openwrt/doc/readme.md)
         "
